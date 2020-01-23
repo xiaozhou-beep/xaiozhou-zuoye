@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的
+	例如namespace="com.szh.mapper.personMapper"就是com.szh.mapper(包名)+personMapper(personMapper.xml文件去除后缀) -->
+<mapper namespace="com.fh.mapper.FiltMapper">
+
+    <select id="queryFiltAndPlane" resultType="FlightInfo">
+    select f.*,p.name pName,p.type type from t_flight f left join t_plane_type p on f.typeId=p.id
+</select>
+
+    <select id="queryFiltAndArea" resultType="FlightInfo">
+    select f.*,a.type aType,a.name aName from t_flight f left join t_areas a  on f.startTerminalId=a.id where f.startTerminalId=#{id}
+</select>
+
+    <select id="queryFiltAndAreaEnd" resultType="FlightInfo">
+    select f.*,a.type aType,a.name aName from t_flight f left join t_areas a  on f.endTerminalId=a.id where f.endTerminalId=#{id}
+</select>
+    <select id="queryPiao" resultType="Integer">
+    select sum(l.totalCount) from t_flight f left join t_flight_ticket l  on f.id=l.flightId where f.id=#{id}
+</select>
+
+    <select id="queryMixPrice" resultType="BigDecimal">
+    select min(f.price) minPrice from t_flight_ticket f left join t_flight l  on f.flightId=l.id where l.id=#{id}
+</select>
+
+    <select id="querycount" resultType="Long">
+    select count(*) from t_flight f left join t_plane_type p on f.typeId=p.id
+</select>
+
+
+
+
+    <select id="queryPlaneList" resultType="PlaneTYpeInfo">
+     select * from  t_plane_type
+</select>
+</mapper>
